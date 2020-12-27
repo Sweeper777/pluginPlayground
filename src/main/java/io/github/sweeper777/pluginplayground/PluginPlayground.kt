@@ -24,5 +24,18 @@ class PluginPlayground : JavaPlugin() {
             }
             true
         }
+
+        getCommand("slimechunk")?.setExecutor { sender, _, _, _ ->
+            if (sender is Player) {
+                if (sender.location.chunk.isSlimeChunk) {
+                    sender.sendMessage("You are in a slime chunk!")
+                } else {
+                    sender.sendMessage("You are NOT in a slime chunk!")
+                }
+            } else {
+                sender.sendMessage("You must be a player to use this command!")
+            }
+            true
+        }
     }
 }
