@@ -6,3 +6,5 @@ api-version: 1.16
 commands:
   whereis:
     description: outputs the coordinates of the current player, or a specified player
+  slimechunk:
+    description: outputs whether the player is in a slime chunk
