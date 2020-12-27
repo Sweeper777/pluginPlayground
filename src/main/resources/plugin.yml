@@ -1,0 +1,8 @@
+name: PluginPlayground
+version: ${project.version}
+main: io.github.sweeper777.pluginplayground.PluginPlayground
+api-version: 1.16
+
+commands:
+  whereis:
+    description: outputs the coordinates of the current player, or a specified player
