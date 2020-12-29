@@ -8,3 +8,5 @@ commands:
     description: outputs the coordinates of the current player, or a specified player
   slimechunk:
     description: outputs whether the player is in a slime chunk
+  health:
+    description: outputs the health of a player
