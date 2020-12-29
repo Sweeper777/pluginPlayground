@@ -3,6 +3,7 @@ package io.github.sweeper777.pluginplayground
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
+import java.text.DecimalFormat
 
 class PluginPlayground : JavaPlugin() {
     override fun onEnable() {
@@ -45,9 +46,14 @@ class PluginPlayground : JavaPlugin() {
             } ?: sender as? Player
 
             if (player != null) {
+                val formatter = DecimalFormat.getInstance()
+                val currentHealth = formatter.format(player.health)
+                val maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value
+                    ?.let {
+                    formatter.format(it)
+                } ?: "unknown"
                 val message = "${player.displayName}'s health: " +
-                        "${player.health}/" +
-                        (player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value?.toString() ?: "unknown")
+                        "$currentHealth/$maxHealth"
                 sender.sendMessage(message)
             } else {
                 sender.sendMessage("Invalid Player Specified")
