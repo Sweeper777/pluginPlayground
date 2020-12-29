@@ -1,5 +1,6 @@
 package io.github.sweeper777.pluginplayground
 
+import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -34,6 +35,22 @@ class PluginPlayground : JavaPlugin() {
                 }
             } else {
                 sender.sendMessage("You must be a player to use this command!")
+            }
+            true
+        }
+
+        getCommand("health")?.setExecutor { sender, _, _, args ->
+            val player = args.firstOrNull()?.let {
+                server.getPlayer(it)
+            } ?: sender as? Player
+
+            if (player != null) {
+                val message = "${player.displayName}'s health: " +
+                        "${player.health}/" +
+                        (player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value?.toString() ?: "unknown")
+                sender.sendMessage(message)
+            } else {
+                sender.sendMessage("Invalid Player Specified")
             }
             true
         }
