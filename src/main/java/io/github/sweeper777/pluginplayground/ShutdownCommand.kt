@@ -8,8 +8,28 @@ import org.bukkit.command.CommandSender
 import org.bukkit.plugin.java.JavaPlugin
 
 class ShutdownCommand(private val plugin: JavaPlugin): CommandExecutor {
+    var countdown: CountDownTask? = null
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        if (!sender.isOp) {
+            sender.sendMessage("Only Server Operators can use this command!")
+            return true
+        }
+
+        val cd = this.countdown
+        if (cd != null) {
+            sender.sendMessage("Server is already shutting down, in ${cd.current} seconds!")
+            return true
+        }
+
+        val delay = args.firstOrNull()?.toLongOrNull() ?: 60
+
+        val scheduler = Bukkit.getScheduler()
+        val newCountdown = CountDownTask(delay, plugin.server)
+        countdown = newCountdown
+        scheduler.scheduleSyncRepeatingTask(plugin, newCountdown, 0, 20)
+        return true
+    }
 }
 
 class CountDownTask(val start: Long, private val server: Server): Runnable {
