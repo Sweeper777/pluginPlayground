@@ -60,5 +60,7 @@ class PluginPlayground : JavaPlugin() {
             }
             true
         }
+
+        getCommand("shutdownin")?.setExecutor(ShutdownCommand(this))
     }
 }
