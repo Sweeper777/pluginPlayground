@@ -1,6 +1,7 @@
 package io.github.sweeper777.pluginplayground
 
 import org.bukkit.attribute.Attribute
+import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.text.DecimalFormat
@@ -62,5 +63,20 @@ class PluginPlayground : JavaPlugin() {
         }
 
         getCommand("shutdownin")?.setExecutor(ShutdownCommand(this))
+
+        getCommand("findentity")?.setExecutor { sender, _, _, args ->
+            if (sender is Player) {
+                val world = sender.location.world
+                if (world == null) {
+                    sender.sendMessage("Can't find any entities!")
+                } else {
+                    val entityByType = world.entities.groupBy { it.javaClass }
+                    entityByType.forEach { sender.sendMessage(it.key.simpleName) }
+                }
+            } else {
+                sender.sendMessage("You must be a player to use this command!")
+            }
+            true
+        }
     }
 }
