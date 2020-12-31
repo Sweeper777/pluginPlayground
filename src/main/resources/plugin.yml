@@ -10,3 +10,5 @@ commands:
     description: outputs whether the player is in a slime chunk
   health:
     description: outputs the health of a player
+  shutdownin:
+    description: shutdown the server with a delay
