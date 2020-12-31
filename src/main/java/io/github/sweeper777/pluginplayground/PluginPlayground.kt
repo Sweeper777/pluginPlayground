@@ -67,11 +67,17 @@ class PluginPlayground : JavaPlugin() {
         getCommand("findentity")?.setExecutor { sender, _, _, args ->
             if (sender is Player) {
                 val world = sender.location.world
-                if (world == null) {
+                val entityToFind = args.firstOrNull()
+                val entityType = EntityType.values().firstOrNull { it.name.equals(entityToFind, ignoreCase = true) }
+                if (world == null || entityType == null) {
                     sender.sendMessage("Can't find any entities!")
+                } else if (!entityType.isAlive) {
+                    sender.sendMessage("Finding non-alive entities is not allowed!")
                 } else {
-                    val entityByType = world.entities.groupBy { it.javaClass }
-                    entityByType.forEach { sender.sendMessage(it.key.simpleName) }
+                    val entitiesFound = world.getEntitiesByClasses(entityType.entityClass)
+                    entitiesFound.forEach {
+                        sender.sendMessage("${it.name} at x=${it.location.blockX}, y=${it.location.blockY}, z=${it.location.blockZ}")
+                    }
                 }
             } else {
                 sender.sendMessage("You must be a player to use this command!")
