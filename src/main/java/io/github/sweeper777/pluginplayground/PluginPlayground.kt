@@ -86,7 +86,5 @@ class PluginPlayground : JavaPlugin() {
             }
             true
         }
-        val map = Gson().fromJson<HashMap<String, String>>("{\"a\":\"b\"}", object : TypeToken<HashMap<String, String>>(){}.type)
-        println(map["a"])
     }
 }
