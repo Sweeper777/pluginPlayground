@@ -1,5 +1,7 @@
 package io.github.sweeper777.pluginplayground
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
@@ -84,5 +86,7 @@ class PluginPlayground : JavaPlugin() {
             }
             true
         }
+        val map = Gson().fromJson<HashMap<String, String>>("{\"a\":\"b\"}", object : TypeToken<HashMap<String, String>>(){}.type)
+        println(map["a"])
     }
 }
