@@ -16,4 +16,6 @@ class POIFile(private val path: String) {
         poisByUUID = Gson().fromJson(reader, typeToken.type)
     }
 
+    fun getPOI(uuid: UUID): List<POI> = poisByUUID[uuid.toString()] ?: emptyList()
+
 }
