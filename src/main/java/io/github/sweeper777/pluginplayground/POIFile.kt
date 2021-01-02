@@ -33,4 +33,8 @@ class POIFile(private val path: String) {
         }
     }
 
+    fun removePOI(uuid: UUID, name: String): Boolean {
+        val poisOfUUID = poisByUUID[uuid.toString()]
+        return poisOfUUID?.removeIf { it.name == name } ?: false
+    }
 }
