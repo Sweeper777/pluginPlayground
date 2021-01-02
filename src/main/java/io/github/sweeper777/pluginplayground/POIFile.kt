@@ -2,9 +2,11 @@ package io.github.sweeper777.pluginplayground
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.io.FileInputStream
-import java.io.InputStreamReader
+import org.bukkit.Bukkit
+import java.io.*
+import java.lang.Exception
 import java.util.UUID
+import java.util.logging.Level
 
 
 class POIFile(private val path: String) {
@@ -36,5 +38,10 @@ class POIFile(private val path: String) {
     fun removePOI(uuid: UUID, name: String): Boolean {
         val poisOfUUID = poisByUUID[uuid.toString()]
         return poisOfUUID?.removeIf { it.name == name } ?: false
+    }
+
+    fun commitChanges() {
+        val typeToken = object : TypeToken<HashMap<String, ArrayList<POI>>>(){}
+        Gson().toJson(poisByUUID, typeToken.type, OutputStreamWriter(FileOutputStream(path)))
     }
 }
