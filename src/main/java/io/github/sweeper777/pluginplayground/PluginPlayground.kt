@@ -86,5 +86,10 @@ class PluginPlayground : JavaPlugin() {
             }
             true
         }
+
+        logger.log(Level.INFO, "Reading POI File")
+        val poi = POICommand("poi.json")
+        poiCommand = poi
+        getCommand("poi")?.setExecutor(poi)
     }
 }
