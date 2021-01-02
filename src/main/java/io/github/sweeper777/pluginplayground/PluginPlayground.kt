@@ -92,4 +92,10 @@ class PluginPlayground : JavaPlugin() {
         poiCommand = poi
         getCommand("poi")?.setExecutor(poi)
     }
+
+    override fun onDisable() {
+        super.onDisable()
+        logger.log(Level.INFO, "Saving POI changes...")
+        poiCommand?.file?.commitChanges()
+    }
 }
