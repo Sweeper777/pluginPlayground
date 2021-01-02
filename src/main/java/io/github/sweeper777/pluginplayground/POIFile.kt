@@ -18,4 +18,19 @@ class POIFile(private val path: String) {
 
     fun getPOI(uuid: UUID): List<POI> = poisByUUID[uuid.toString()] ?: emptyList()
 
+    fun addPOI(uuid: UUID, poi: POI): Boolean {
+        val poisOfUUID = poisByUUID[uuid.toString()]
+        if (poisOfUUID == null) {
+            poisByUUID[uuid.toString()] = ArrayList(mutableListOf(poi))
+            return true
+        } else {
+            if (poisOfUUID.any { it.name == poi.name }) {
+                return false
+            } else {
+                poisOfUUID.add(poi)
+                return true
+            }
+        }
+    }
+
 }
