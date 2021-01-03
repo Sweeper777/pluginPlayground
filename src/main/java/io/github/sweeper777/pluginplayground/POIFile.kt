@@ -13,9 +13,13 @@ class POIFile(private val path: String) {
     private val poisByUUID: MutableMap<String, MutableList<POI>>
 
     init {
-        val reader = InputStreamReader(FileInputStream(path))
-        val typeToken = object : TypeToken<HashMap<String, ArrayList<POI>>>(){}
-        poisByUUID = Gson().fromJson(reader, typeToken.type)
+        poisByUUID = try {
+            val reader = InputStreamReader(FileInputStream(path))
+            val typeToken = object : TypeToken<HashMap<String, ArrayList<POI>>>(){}
+            Gson().fromJson<HashMap<String, MutableList<POI>>>(reader, typeToken.type)
+        } catch (ex: Exception) {
+            HashMap()
+        }
     }
 
     fun getPOI(uuid: UUID): List<POI> = poisByUUID[uuid.toString()] ?: emptyList()
