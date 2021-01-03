@@ -10,16 +10,12 @@ import java.util.logging.Level
 
 
 class POIFile(private val path: String) {
-    private val poisByUUID: MutableMap<String, MutableList<POI>>
-
-    init {
-        poisByUUID = try {
-            val reader = InputStreamReader(FileInputStream(path))
-            val typeToken = object : TypeToken<HashMap<String, ArrayList<POI>>>(){}
-            Gson().fromJson<HashMap<String, MutableList<POI>>>(reader, typeToken.type)
-        } catch (ex: Exception) {
-            HashMap()
-        }
+    private val poisByUUID: HashMap<String, ArrayList<POI>> = try {
+        val reader = InputStreamReader(FileInputStream(path))
+        val typeToken = object : TypeToken<HashMap<String, ArrayList<POI>>>(){}
+        Gson().fromJson(reader, typeToken.type)
+    } catch (ex: Exception) {
+        HashMap()
     }
 
     fun getPOI(uuid: UUID): List<POI> = poisByUUID[uuid.toString()] ?: emptyList()
