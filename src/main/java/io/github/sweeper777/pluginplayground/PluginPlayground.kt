@@ -3,12 +3,17 @@ package io.github.sweeper777.pluginplayground
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.bukkit.attribute.Attribute
+import org.bukkit.command.Command
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.text.DecimalFormat
+import java.util.logging.Level
 
 class PluginPlayground : JavaPlugin() {
+    var poiCommand: POICommand? = null
+
     override fun onEnable() {
         getCommand("whereis")?.setExecutor { sender, _, _, args ->
             val playerToBeLocated = args.firstOrNull()?.let {
@@ -65,6 +70,7 @@ class PluginPlayground : JavaPlugin() {
         }
 
         getCommand("shutdownin")?.setExecutor(ShutdownCommand(this))
+        getCommand("shutdownin")?.setTabCompleter { _, _, _, _ -> emptyList<String>() }
 
         getCommand("findentity")?.setExecutor { sender, _, _, args ->
             if (sender is Player) {
@@ -87,10 +93,14 @@ class PluginPlayground : JavaPlugin() {
             true
         }
 
+        getCommand("findentity")?.tabCompleter =
+            MultipleChoiceTabComplete(EntityType.values().filter { it.isAlive }.map { it.name })
+
         logger.log(Level.INFO, "Reading POI File")
         val poi = POICommand("poi.json")
         poiCommand = poi
         getCommand("poi")?.setExecutor(poi)
+        getCommand("poi")?.tabCompleter = MultipleChoiceTabComplete(listOf("add", "remove", "list"))
     }
 
     override fun onDisable() {
