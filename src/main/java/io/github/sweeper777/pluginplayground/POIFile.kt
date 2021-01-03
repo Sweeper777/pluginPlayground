@@ -42,6 +42,7 @@ class POIFile(private val path: String) {
 
     fun commitChanges() {
         val typeToken = object : TypeToken<HashMap<String, ArrayList<POI>>>(){}
+        println(poisByUUID)
         Gson().toJson(poisByUUID, typeToken.type, OutputStreamWriter(FileOutputStream(path)))
     }
 }
