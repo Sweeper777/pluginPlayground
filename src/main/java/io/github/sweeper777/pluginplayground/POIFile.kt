@@ -2,11 +2,11 @@ package io.github.sweeper777.pluginplayground
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import org.bukkit.Bukkit
 import java.io.*
 import java.lang.Exception
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.util.UUID
-import java.util.logging.Level
 
 
 class POIFile(private val path: String) {
@@ -43,6 +43,7 @@ class POIFile(private val path: String) {
     fun commitChanges() {
         val typeToken = object : TypeToken<HashMap<String, ArrayList<POI>>>(){}
         println(poisByUUID)
-        Gson().toJson(poisByUUID, typeToken.type, OutputStreamWriter(FileOutputStream(path)))
+        val jsonString = Gson().toJson(poisByUUID, typeToken.type)
+        Files.writeString(Paths.get(path), jsonString)
     }
 }
