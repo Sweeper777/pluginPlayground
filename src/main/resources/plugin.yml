@@ -14,3 +14,5 @@ commands:
     description: shutdown the server with a delay
   findentity:
     description: finds a specified type of entity
+  poi:
+    description: records a point of interest in the world
