@@ -55,4 +55,27 @@ class MyGUI : Listener {
         return item
     }
 
+    fun openInventory(ent: HumanEntity) {
+        ent.openInventory(inv)
+    }
+
+    @EventHandler
+    fun onInventoryClick(e: InventoryClickEvent) {
+        if (e.inventory !== inv) return
+        e.isCancelled = true
+        val clickedItem = e.currentItem
+
+        if (clickedItem == null || clickedItem.type == Material.AIR) return
+        val p = e.whoClicked as Player
+
+        p.sendMessage("Click Type: ${e.click}")
+        p.sendMessage("Action Type: ${e.action}")
+    }
+
+    @EventHandler
+    fun onInventoryClick(e: InventoryDragEvent) {
+        if (e.inventory === inv) {
+            e.isCancelled = true
+        }
+    }
 }
