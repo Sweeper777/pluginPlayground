@@ -24,12 +24,14 @@ class POIFile(private val path: String) {
         val poisOfUUID = poisByUUID[uuid.toString()]
         return if (poisOfUUID == null) {
             poisByUUID[uuid.toString()] = ArrayList(mutableListOf(poi))
+            commitChanges()
             true
         } else {
             if (poisOfUUID.any { it.name == poi.name }) {
                 false
             } else {
                 poisOfUUID.add(poi)
+                commitChanges()
                 true
             }
         }
@@ -37,7 +39,7 @@ class POIFile(private val path: String) {
 
     fun removePOI(uuid: UUID, name: String): Boolean {
         val poisOfUUID = poisByUUID[uuid.toString()]
-        return poisOfUUID?.removeIf { it.name == name } ?: false
+        return (poisOfUUID?.removeIf { it.name == name })?.also { commitChanges() } ?: false
     }
 
     fun commitChanges() {
