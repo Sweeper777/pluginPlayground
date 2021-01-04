@@ -2,11 +2,17 @@ package io.github.sweeper777.pluginplayground
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.attribute.Attribute
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.RecipeChoice
+import org.bukkit.inventory.ShapedRecipe
+import org.bukkit.material.MaterialData
 import org.bukkit.plugin.java.JavaPlugin
 import java.text.DecimalFormat
 import java.util.logging.Level
@@ -101,6 +107,13 @@ class PluginPlayground : JavaPlugin() {
         poiCommand = poi
         getCommand("poi")?.setExecutor(poi)
         getCommand("poi")?.tabCompleter = MultipleChoiceTabComplete(listOf("add", "remove", "list"))
+
+        server.addRecipe(
+            ShapedRecipe(NamespacedKey(this, "elytra"), ItemStack(Material.ELYTRA))
+                .shape("n-n", "n n", "n n")
+                .setIngredient('n', Material.NETHERITE_INGOT)
+                .setIngredient('-', Material.END_ROD)
+        )
     }
 
     override fun onDisable() {
