@@ -21,4 +21,15 @@ import org.bukkit.inventory.Inventory
 class MyGUI : Listener {
     private val inv: Inventory = Bukkit.createInventory(null, 9, "My GUI")
 
+    private fun createGuiItem(material: Material, name: String, vararg lore: String): ItemStack {
+        val item = ItemStack(material, 1)
+        val meta = item.itemMeta
+
+        meta?.setDisplayName(name)
+
+        meta?.lore = lore.toList()
+        item.itemMeta = meta
+        return item
+    }
+
 }
