@@ -1,24 +1,19 @@
 package io.github.sweeper777.pluginplayground
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.attribute.Attribute
-import org.bukkit.command.Command
-import org.bukkit.command.CommandSender
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.RecipeChoice
 import org.bukkit.inventory.ShapedRecipe
-import org.bukkit.material.MaterialData
 import org.bukkit.plugin.java.JavaPlugin
 import java.text.DecimalFormat
 import java.util.logging.Level
 
 class PluginPlayground : JavaPlugin() {
     var poiCommand: POICommand? = null
+    val myGUI = MyGUI()
 
     override fun onEnable() {
         getCommand("whereis")?.setExecutor { sender, _, _, args ->
@@ -114,6 +109,17 @@ class PluginPlayground : JavaPlugin() {
                 .setIngredient('n', Material.NETHERITE_INGOT)
                 .setIngredient('-', Material.END_ROD)
         )
+
+        getCommand("gui")?.setExecutor { sender, _, _, _ ->
+            if (sender is Player) {
+                myGUI.openInventory(sender)
+            } else {
+                sender.sendMessage("Only players can use this command!")
+            }
+            true
+        }
+
+        server.pluginManager.registerEvents(myGUI, this)
     }
 
     override fun onDisable() {
