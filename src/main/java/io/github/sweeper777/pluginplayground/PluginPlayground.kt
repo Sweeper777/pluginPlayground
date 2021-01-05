@@ -5,6 +5,9 @@ import org.bukkit.NamespacedKey
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.ShapedRecipe
 import org.bukkit.plugin.java.JavaPlugin
@@ -120,6 +123,12 @@ class PluginPlayground : JavaPlugin() {
         }
 
         server.pluginManager.registerEvents(myGUI, this)
+        server.pluginManager.registerEvents(object : Listener {
+            @EventHandler
+            fun onPlayerJoin(e: PlayerJoinEvent) {
+                e.player.sendMessage("Welcome ${e.player.name} to the server!")
+            }
+        }, this)
     }
 
     override fun onDisable() {
