@@ -64,6 +64,12 @@ class MyGUI : Listener {
         val p = e.whoClicked as Player
         if (e.inventory === inv) {
             e.isCancelled = true
+
+            val clickedItem = e.currentItem
+
+            if (clickedItem?.type != Material.AIR) {
+                p.closeInventory()
+            }
         }
 
         p.sendMessage("Click Type: ${e.click}")
