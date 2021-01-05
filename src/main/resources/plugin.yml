@@ -16,3 +16,5 @@ commands:
     description: finds a specified type of entity
   poi:
     description: records a point of interest in the world
+  gui:
+    description: shows a dummy gui
