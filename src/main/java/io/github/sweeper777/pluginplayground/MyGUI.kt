@@ -61,12 +61,10 @@ class MyGUI : Listener {
 
     @EventHandler
     fun onInventoryClick(e: InventoryClickEvent) {
-        if (e.inventory !== inv) return
-        e.isCancelled = true
-        val clickedItem = e.currentItem
-
-        if (clickedItem == null || clickedItem.type == Material.AIR) return
         val p = e.whoClicked as Player
+        if (e.inventory === inv) {
+            e.isCancelled = true
+        }
 
         p.sendMessage("Click Type: ${e.click}")
         p.sendMessage("Action Type: ${e.action}")
