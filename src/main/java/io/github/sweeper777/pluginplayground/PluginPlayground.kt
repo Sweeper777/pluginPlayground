@@ -1,5 +1,6 @@
 package io.github.sweeper777.pluginplayground
 
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.attribute.Attribute
@@ -12,11 +13,11 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.ShapedRecipe
 import org.bukkit.plugin.java.JavaPlugin
 import java.text.DecimalFormat
+import java.util.UUID
 import java.util.logging.Level
 
 class PluginPlayground : JavaPlugin() {
     var poiCommand: POICommand? = null
-    val myGUI = MyGUI()
 
     override fun onEnable() {
         getCommand("whereis")?.setExecutor { sender, _, _, args ->
@@ -122,7 +123,6 @@ class PluginPlayground : JavaPlugin() {
             true
         }
 
-        server.pluginManager.registerEvents(myGUI, this)
         server.pluginManager.registerEvents(object : Listener {
             @EventHandler
             fun onPlayerJoin(e: PlayerJoinEvent) {
