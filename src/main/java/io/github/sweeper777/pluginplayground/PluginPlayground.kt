@@ -114,11 +114,23 @@ class PluginPlayground : JavaPlugin() {
                 .setIngredient('-', Material.END_ROD)
         )
 
-        getCommand("gui")?.setExecutor { sender, _, _, _ ->
-            if (sender is Player) {
-                myGUI.openInventory(sender)
+        getCommand("dumpinv")?.setExecutor { sender, _, _, args ->
+            logger.log(Level.INFO, "RUNNING!")
+            val player = args.firstOrNull()
+                ?.let { UUID.fromString(it) }
+                ?.let { Bukkit.getOfflinePlayer(it) }
+            if (player != null) {
+                sender.sendMessage("Found player: ${player.name}")
+                val onlinePlayer = player.player
+                if (onlinePlayer == null) {
+                    sender.sendMessage("Not online!")
+                    return@setExecutor false
+                }
+                for (stack in onlinePlayer.inventory) {
+                    sender.sendMessage("${stack.type}: ${stack.amount}")
+                }
             } else {
-                sender.sendMessage("Only players can use this command!")
+                sender.sendMessage("Cannot find player!")
             }
             true
         }
